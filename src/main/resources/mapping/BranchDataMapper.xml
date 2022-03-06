@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.BranchDataMapper">
+    <resultMap id="baseResult" type="com.example.demo.model.BranchDataPO">
+        <result property="id" column="id"/>
+        <result property="branchNo" column="branch_no"/>
+        <result property="branchName" column="branch_name"/>
+        <result property="belongBranchNo" column="belong_branch_no"/>
+        <result property="belongBranchName" column="belong_branch_name"/>
+        <result property="frequency" column="frequency"/>
+        <result property="batch" column="batch"/>
+        <result property="reportDate" column="report_date"/>
+        <result property="reportNum" column="report_num"/>
+    </resultMap>
+
+    <select id="query" resultMap="baseResult">
+        select id,
+               branch_no,
+               branch_name,
+               belong_branch_no,
+               belong_branch_name,
+               frequency,
+               batch,
+               report_date,
+               report_num
+        from branch_late_miss_date_config
+    </select>
+
+    <insert id="batchAdd" parameterType="java.util.List">
+        insert into branch_late_miss_date_config(branch_no, branch_name, belong_branch_no, belong_branch_name,
+        frequency, batch, report_date, report_num) VALUES
+        <foreach collection="list" separator="," item="item">
+            (#{item.branchNo},#{item.branchName},#{item.belongBranchNo},#{item.belongBranchName},#{item.frequency},
+            #{item.batch},#{item.reportDate},#{item.reportNum})
+        </foreach>
+    </insert>
+
+</mapper>
